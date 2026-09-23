@@ -59,7 +59,7 @@
                 </form>
 
                 <button id="themeToggle" class="btn btn-outline-light ms-2" type="button" aria-label="Desativar modo escuro">
-                    🌙 Modo escuro
+                    🌙
                 </button>
             </div>
         </div>
@@ -76,7 +76,7 @@
             html.setAttribute('data-bs-theme', theme);
             const darkMode = theme === 'dark';
 
-            themeToggle.textContent = darkMode ? '🌙 Modo escuro' : '☀️ Modo claro';
+            themeToggle.textContent = darkMode ? '🌙' : '☀️';
             themeToggle.setAttribute('aria-label', darkMode ? 'Desativar modo escuro' : 'Ativar modo escuro');
             themeToggle.classList.toggle('btn-outline-light', darkMode);
             themeToggle.classList.toggle('btn-outline-secondary', !darkMode);
