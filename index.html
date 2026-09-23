@@ -10,8 +10,7 @@
 </head>
 
 <body>
-    <button id="themeToggle" class="btn btn-outline-light position-absolute top-0 end-0 m-3" type="button" aria-label="Desativar modo escuro" style="z-index: 1050; border-radius: 50%; width: 48px; height: 48px; padding: 0; font-size: 1.3rem;">
-        🌙
+    <button id="themeToggle" class="btn btn-outline-light position-absolute top-0 end-0 m-3" type="button" aria-label="Desativar modo escuro" style="z-index: 1050; border-radius: 50%; width: 56px; height: 56px; padding: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.15); margin-right: 1.5rem;">
     </button>
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -53,7 +52,7 @@
                         <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                     </li>
                 </ul>
-                <form class="d-flex" role="search">
+                <form class="d-flex ms-auto" role="search" style="margin-right: 5.5rem;">
                     <input 
                     class="form-control me-2" 
                     type="search" 
@@ -74,14 +73,39 @@
         const themeToggle = document.getElementById('themeToggle');
         const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
+        function renderPikachu(isSleeping) {
+            const svg = `
+                <svg viewBox="0 0 100 100" width="36" height="36" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                    <g>
+                        <path d="M25 18 L15 2 L35 10 Z" fill="#f6d64a"/>
+                        <path d="M75 18 L85 2 L65 10 Z" fill="#f6d64a"/>
+                        <path d="M18 33 L28 19 L42 28 Z" fill="#f6d64a"/>
+                        <path d="M82 33 L72 19 L58 28 Z" fill="#f6d64a"/>
+                        <ellipse cx="50" cy="52" rx="32" ry="28" fill="#f6d64a"/>
+                        <ellipse cx="38" cy="47" rx="7" ry="8" fill="#1a1a1a"/>
+                        <ellipse cx="62" cy="47" rx="7" ry="8" fill="#1a1a1a"/>
+                        ${isSleeping
+                            ? '<path d="M32 58 Q50 65 68 58" fill="none" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round"/><path d="M18 70 Q35 58 52 70" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/><path d="M54 69 Q70 57 86 69" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>'
+                            : '<circle cx="37" cy="47" r="2" fill="#fff"/><circle cx="61" cy="47" r="2" fill="#fff"/><path d="M37 62 Q50 69 63 62" fill="none" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round"/>'}
+                        <path d="M35 72 Q50 82 65 72" fill="none" stroke="#d49a00" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M70 30 Q82 22 88 30" fill="none" stroke="#f0c419" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M30 30 Q18 22 12 30" fill="none" stroke="#f0c419" stroke-width="4" stroke-linecap="round"/>
+                    </g>
+                </svg>
+            `;
+
+            themeToggle.innerHTML = svg;
+        }
+
         function applyTheme(theme) {
             html.setAttribute('data-bs-theme', theme);
             const darkMode = theme === 'dark';
 
-            themeToggle.textContent = darkMode ? '🌙' : '☀️';
+            renderPikachu(darkMode);
             themeToggle.setAttribute('aria-label', darkMode ? 'Desativar modo escuro' : 'Ativar modo escuro');
             themeToggle.classList.toggle('btn-outline-light', darkMode);
             themeToggle.classList.toggle('btn-outline-secondary', !darkMode);
+            themeToggle.style.background = darkMode ? '#1f2430' : '#fff7d6';
         }
 
         function getInitialTheme() {
