@@ -72,6 +72,7 @@
     <script>
         const html = document.documentElement;
         const themeToggle = document.getElementById('themeToggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
         function applyTheme(theme) {
             html.setAttribute('data-bs-theme', theme);
@@ -81,14 +82,23 @@
             themeToggle.setAttribute('aria-label', darkMode ? 'Desativar modo escuro' : 'Ativar modo escuro');
             themeToggle.classList.toggle('btn-outline-light', darkMode);
             themeToggle.classList.toggle('btn-outline-secondary', !darkMode);
-            localStorage.setItem('theme', theme);
         }
 
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        applyTheme(savedTheme);
+        function getInitialTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || savedTheme === 'light') {
+                return savedTheme;
+            }
+
+            return prefersDarkScheme.matches ? 'dark' : 'light';
+        }
+
+        const initialTheme = getInitialTheme();
+        applyTheme(initialTheme);
 
         themeToggle.addEventListener('click', () => {
             const currentTheme = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', currentTheme);
             applyTheme(currentTheme);
         });
     </script>
